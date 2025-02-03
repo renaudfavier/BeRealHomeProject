@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.berealhomeproject"
+    namespace = "com.example.snapquest"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.berealhomeproject"
+        applicationId = "com.example.snapquest"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

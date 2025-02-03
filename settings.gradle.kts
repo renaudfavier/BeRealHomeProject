@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BeRealHomeProject"
+rootProject.name = "SnapQuest"
 include(":app")
  

@@ -1,4 +1,4 @@
-package com.example.berealhomeproject.ui.theme
+package com.example.snapquest.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

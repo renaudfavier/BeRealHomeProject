@@ -1,4 +1,4 @@
-package com.example.berealhomeproject
+package com.example.snapquest
 
 import org.junit.Test
 
