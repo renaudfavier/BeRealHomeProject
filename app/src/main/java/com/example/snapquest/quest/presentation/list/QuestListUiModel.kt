@@ -11,4 +11,7 @@ sealed interface QuestListUiModel {
     data class Error(val message: String) : QuestListUiModel
 }
 
-data class QuestUiModel(val name: String)
+data class QuestUiModel(
+    val id: Int,
+    val name: String,
+)
