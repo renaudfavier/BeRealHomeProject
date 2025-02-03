@@ -1,7 +1,10 @@
 package com.example.snapquest.quest.presentation.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.example.snapquest.QuestDetailRoute
 import com.example.snapquest.quest.presentation.detail.QuestDetailUiModel as UiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +20,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
 ): ViewModel() {
+
+    private val questId = savedStateHandle.toRoute<QuestDetailRoute>().id
 
     private val _uiState = MutableStateFlow<UiModel>(UiModel.Loading)
     val uiState = _uiState
@@ -33,6 +39,6 @@ class DetailViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             delay(1000L)
         }
-        _uiState.update { UiModel.Content("Something blue") }
+        _uiState.update { UiModel.Content("Something blue $questId") }
     }
 }
