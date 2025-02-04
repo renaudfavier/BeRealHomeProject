@@ -52,6 +52,7 @@ fun QuestDetailScreen(
     when (uiModel) {
         is QuestDetailUiModel.Content -> Content(
             uiModel = uiModel,
+            onSubmitPhotoPressed = onSubmitPhotoPressed,
             modifier = modifier.fillMaxSize()
         )
 
@@ -69,6 +70,7 @@ fun QuestDetailScreen(
 @Composable
 private fun Content(
     uiModel: QuestDetailUiModel.Content,
+    onSubmitPhotoPressed: () -> Unit,
     modifier: Modifier = Modifier,
 ) = Box(modifier) {
     LazyColumn(modifier = modifier) {
@@ -177,7 +179,7 @@ private fun Content(
     }
 
     Button(
-        onClick = {},
+        onClick = onSubmitPhotoPressed,
         colors = ButtonDefaults.elevatedButtonColors(),
         modifier = Modifier
             .fillMaxWidth()

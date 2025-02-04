@@ -2,8 +2,12 @@ package com.example.snapquest
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -50,12 +54,22 @@ class MainActivity : ComponentActivity() {
                             val detailViewModel = hiltViewModel<DetailViewModel>()
                             val uiModel by detailViewModel.uiState.collectAsStateWithLifecycle()
 
+                            val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+                                contract = ActivityResultContracts.PickVisualMedia(),
+                            ) {
+                                detailViewModel.onPhotoSubmitted(it)
+                            }
+
                             QuestDetailScreen(
                                 uiModel = uiModel,
                                 onBackButtonPressed = {
                                     navController.navigateUp()
                                 },
-                                onSubmitPhotoPressed = {}
+                                onSubmitPhotoPressed = {
+                                    singlePhotoPickerLauncher.launch(
+                                        input = PickVisualMediaRequest(ImageOnly)
+                                    )
+                                }
                             )
                         }
                     }
