@@ -3,8 +3,10 @@ package com.example.snapquest.quest.presentation.detail
 import android.net.Uri
 import com.example.avivhomeproject.rule.SavedStateHandleRule
 import com.example.snapquest.QuestDetailRoute
-import com.example.snapquest.quest.domain.FakeUploadPhotoUseCase
+import com.example.snapquest.quest.data.FakeUploadPhotoUseCase
 import com.example.snapquest.quest.domain.UploadPhotoUseCase
+import com.example.snapquest.quest.data.FakeQuestRepository
+import com.example.snapquest.quest.data.FakeQuestSubmissionRepository
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -43,8 +45,10 @@ class DetailViewModelTest {
         viewModel = DetailViewModel(
             savedStateHandle = savedStateHandleRule.savedStateHandleMock,
             uploadPhotoUseCase,
+            FakeQuestRepository(),
+            FakeQuestSubmissionRepository(),
+            QuestUiModelMapper(),
             Dispatchers.Main
-
         )
     }
 

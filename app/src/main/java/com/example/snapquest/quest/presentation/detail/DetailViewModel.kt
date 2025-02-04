@@ -7,12 +7,18 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.snapquest.QuestDetailRoute
 import com.example.snapquest.core.di.IoDispatcher
+import com.example.snapquest.core.domain.combine
+import com.example.snapquest.core.domain.onError
+import com.example.snapquest.core.domain.onSuccess
 import com.example.snapquest.quest.domain.UploadPhotoUseCase
+import com.example.snapquest.quest.domain.QuestRepository
+import com.example.snapquest.quest.domain.QuestSubmissionRepository
 import com.example.snapquest.quest.presentation.detail.QuestDetailUiModel
 import com.example.snapquest.quest.presentation.detail.QuestDetailUiModel as UiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
@@ -26,6 +32,9 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val uploadPhotoUseCase: UploadPhotoUseCase,
+    private val questRepository: QuestRepository,
+    private val questSubmissionRepository: QuestSubmissionRepository,
+    private val mapper: QuestUiModelMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ): ViewModel() {
 
@@ -43,35 +52,44 @@ class DetailViewModel @Inject constructor(
     private fun loadData() = viewModelScope.launch {
         _uiState.update { UiModel.Loading }
         withContext(ioDispatcher) {
-            delay(1000L)
+            val deferredQuest = async { questRepository.getQuest(questId) }
+            val deferredSubmissions = async { questSubmissionRepository.getAllSubmissions(questId) }
+
+            val questResult = deferredQuest.await()
+            val submissionsResult = deferredSubmissions.await()
+            withContext(Dispatchers.Main) {
+                questResult
+                    .combine(submissionsResult)
+                    .onSuccess { (quest, submissions) ->
+                        _uiState.update { mapper.map(quest, submissions) }
+                    }
+                    .onError { e ->
+                        _uiState.update { UiModel.Error(e.toString()) }
+                    }
+            }
         }
-        _uiState.update { UiModel.Content(
-            "Something blue $questId",
-            description = "",
-            questImageUrl = "TODO()",
-            timeLeft = "TODO()",
-            yourSubmission = null,
-            mostUpVoted = null,
-            allSubmission = emptyList()
-        ) }
     }
 
     fun onPhotoSubmitted(uri: Uri?) = viewModelScope.launch {
         if(uri == null) return@launch
 
-        // This is bad but too long to make better
-        val storedState = _uiState.value as UiModel.Content
-
         _uiState.update { QuestDetailUiModel.Loading }
         withContext(ioDispatcher) {
             uploadPhotoUseCase.uploadPhoto(uri).fold(
-                onSuccess = { submission ->
-                    _uiState.update {
-                        storedState.copy(yourSubmission = submission)
-                    }
+                onSuccess = { uploadedPhoto ->
+                    questSubmissionRepository
+                        .submit(questId, uploadedPhoto)
+                        .onSuccess { loadData() }
+                        .onError { displayError(it.toString()) }
                 },
-                onFailure = { TODO() }
+                onFailure = { displayError(it.toString()) }
             )
+        }
+    }
+
+    private suspend fun displayError(message: String) = withContext(Dispatchers.Main) {
+        _uiState.update {
+            UiModel.Error(message)
         }
     }
 

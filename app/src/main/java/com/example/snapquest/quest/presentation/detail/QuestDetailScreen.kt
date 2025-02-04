@@ -190,7 +190,7 @@ private fun Content(
         shape = RoundedCornerShape(24.dp)
     ) {
         Text(
-            text = stringResource(R.string.submit_photo),
+            text = stringResource(R.string.join_contest),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
         )
     }
