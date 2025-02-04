@@ -28,7 +28,7 @@ class FakeQuestRepository @Inject constructor(): QuestRepository {
 
     private val forest = Quest(
         id = 3,
-        title = "Forest",
+        title = "Forests",
         imageUrl = "https://onetreeplanted.org/cdn/shop/articles/Forest_Fog_1600x.jpg?v=1682535224",
         endDate = LocalDate.now().atStartOfDay().minusDays(3).toInstant(ZoneOffset.UTC),
         description = "A photo contest inviting you to explore nature’s wonders. Capture the essence of forests—towering trees, vibrant wildlife, and peaceful landscapes—and share your unique perspective."

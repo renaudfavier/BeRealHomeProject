@@ -23,9 +23,9 @@ class FakeQuestSubmissionRepository @Inject constructor(): QuestSubmissionReposi
 
     private val forestSubmissions: List<Submission> = listOf(
         Submission(31, 3, "https://www.massaudubon.org/var/site/storage/images/9/3/6/2/1602639-1-eng-US/2fe6f73efaea-RE_KForesto-3461-1920x1280.jpg", 28, false),
-        Submission(31, 3, "https://images.nationalgeographic.org/image/upload/v1638892272/EducationHub/photos/hoh-river-valley.jpg", 18, false),
-        Submission(31, 3, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSePvI_cF2gdEOaNkE-ArSnmkvVrd76RXJYbg&s", 7, true),
-        Submission(31, 3, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSaCI3mCHMkmkvjG2tl0foZ4wR3EaEd2VkAg&s", 1, false),
+        Submission(32, 3, "https://images.nationalgeographic.org/image/upload/v1638892272/EducationHub/photos/hoh-river-valley.jpg", 18, false),
+        Submission(33, 3, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSePvI_cF2gdEOaNkE-ArSnmkvVrd76RXJYbg&s", 7, true),
+        Submission(34, 3, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSaCI3mCHMkmkvjG2tl0foZ4wR3EaEd2VkAg&s", 1, false),
     )
     private val submissions: MutableMap<Int, MutableList<Submission>> = mutableMapOf(
         1 to somethingBlueSubmissions.toMutableList(),
