@@ -1,5 +1,7 @@
 package com.example.snapquest.quest.presentation.list
 
+import com.example.snapquest.quest.data.FakeAvailableQuestsRepository
+import com.example.snapquest.quest.data.FakeQuestRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -23,7 +25,11 @@ class ListViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = ListViewModel()
+        viewModel = ListViewModel(
+            availableQuestsRepository = FakeAvailableQuestsRepository(),
+            questRepository = FakeQuestRepository(),
+            mapper = ListUiModelMapper()
+        )
     }
 
     @After
