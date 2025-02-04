@@ -8,7 +8,7 @@ sealed interface QuestDetailUiModel {
         val title: String,
         val description: String,
         val questImageUrl: String?,
-        val timeLeft: String,
+        val timeLeft: String?,
         val yourSubmission: SubmissionUiModel?,
         val mostUpVoted: SubmissionUiModel?,
         val allSubmission: List<SubmissionUiModel>,

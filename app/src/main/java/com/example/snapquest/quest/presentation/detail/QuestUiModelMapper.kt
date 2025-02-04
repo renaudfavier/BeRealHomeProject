@@ -1,9 +1,9 @@
 package com.example.snapquest.quest.presentation.detail
 
+import com.example.snapquest.core.presentation.util.formatTimeLeft
 import com.example.snapquest.quest.domain.model.Quest
 import com.example.snapquest.quest.domain.QuestSubmissionRepository
 import com.example.snapquest.quest.domain.model.Submission
-import java.time.Instant
 import javax.inject.Inject
 
 class QuestUiModelMapper @Inject constructor() {
@@ -20,14 +20,9 @@ class QuestUiModelMapper @Inject constructor() {
         isJoinButtonVisible = submissions.yours == null
     )
 
-    private fun formatTimeLeft(instant: Instant): String {
-        return instant.toString()
-    }
-
     private fun Submission.toUiModel() = SubmissionUiModel(
         id = id,
         url = url,
         voteCount = voteCount
     )
-
 }

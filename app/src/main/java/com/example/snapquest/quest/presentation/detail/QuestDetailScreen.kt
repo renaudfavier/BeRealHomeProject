@@ -182,7 +182,7 @@ private fun Content(
     if(uiModel.isJoinButtonVisible) {
         Button(
             onClick = onSubmitPhotoPressed,
-            colors = ButtonDefaults.elevatedButtonColors(),
+            colors = ButtonDefaults.buttonColors(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = 24.dp)
@@ -221,22 +221,25 @@ fun QuestDescription(
         text = uiModel.description,
         Modifier.padding(top = 24.dp),
     )
-    Surface(
-        modifier = Modifier
-            .padding(top = 24.dp)
-            .align(Alignment.CenterHorizontally),
-        color = MaterialTheme.colorScheme.primaryContainer,
-        shape = RoundedCornerShape(24.dp),
-    ) {
-        Text(
-            text = uiModel.timeLeft,
+    uiModel.timeLeft?.let {
+        Surface(
             modifier = Modifier
-                .padding(all = 18.dp)
+                .padding(top = 24.dp)
                 .align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.inversePrimary,
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
-        )
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shape = RoundedCornerShape(24.dp),
+        ) {
+
+            Text(
+                text = uiModel.timeLeft,
+                modifier = Modifier
+                    .padding(all = 18.dp)
+                    .align(Alignment.CenterHorizontally),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.inversePrimary,
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
+            )
+        }
     }
 }
 
