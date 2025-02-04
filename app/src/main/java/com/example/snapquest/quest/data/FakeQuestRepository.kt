@@ -1,7 +1,5 @@
 package com.example.snapquest.quest.data
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.snapquest.core.domain.Result
 import com.example.snapquest.quest.domain.QuestRepository
 import com.example.snapquest.quest.domain.model.Quest
@@ -10,7 +8,6 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 import javax.inject.Inject
 
-@RequiresApi(Build.VERSION_CODES.O)
 class FakeQuestRepository @Inject constructor(): QuestRepository {
 
     private val somethingBlue = Quest(
