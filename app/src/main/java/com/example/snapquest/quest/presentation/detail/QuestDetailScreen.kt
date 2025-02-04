@@ -102,8 +102,7 @@ private fun Content(
                                 .fillMaxWidth(0.8f)
                                 .clickable { onPhotoPressed(mostUpVoted.id) }
                         )
-                        LikeButtonLarge(
-                            onClick = {},
+                        LikeCountDisplayLarge(
                             voteCount = mostUpVoted.voteCount,
                             modifier = Modifier
                                 .padding(12.dp)
@@ -128,13 +127,11 @@ private fun Content(
                                 .fillMaxWidth(0.8f)
                                 .clickable { onPhotoPressed(yourSubmission.id) }
                         )
-                        LikeButtonLarge(
-                            onClick = {},
+                        LikeCountDisplayLarge(
                             voteCount = yourSubmission.voteCount,
                             modifier = Modifier
                                 .padding(12.dp)
                                 .align(Alignment.BottomEnd),
-                            enabled = false
                         )
                     }
                 }
@@ -253,31 +250,21 @@ fun QuestDescription(
 }
 
 @Composable
-private fun LikeButtonLarge(
-    onClick: (Boolean) -> Unit,
+private fun LikeCountDisplayLarge(
     voteCount: Int,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    liked: Boolean = false,
-) = Button(
-    onClick = { onClick(!liked) },
-    modifier = modifier.wrapContentSize(),
-    enabled = enabled,
+) = Surface(
+    modifier = modifier,
+    shape = RoundedCornerShape(18.dp),
+    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = Icons.Default.ThumbUp,
-            contentDescription = "Like",
-        )
-        Text(
-            text = "$voteCount",
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 12.dp),
-        )
-    }
+    Text(
+        text = "liked $voteCount times",
+        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+        fontWeight = FontWeight.Bold,
+    )
 }
+
 
 @Preview
 @Composable
