@@ -16,11 +16,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.snapquest.quest.presentation.detail.DetailViewModel
 import com.example.snapquest.quest.presentation.detail.QuestDetailScreen
-import com.example.snapquest.quest.presentation.detail.QuestDetailUiModel
 import com.example.snapquest.quest.presentation.list.ListViewModel
 import com.example.snapquest.quest.presentation.list.QuestListScreen
-import com.example.snapquest.quest.presentation.list.QuestListUiModel
-import com.example.snapquest.quest.presentation.list.QuestUiModel
 import com.example.snapquest.ui.theme.SnapQuestTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +54,8 @@ class MainActivity : ComponentActivity() {
                                 uiModel = uiModel,
                                 onBackButtonPressed = {
                                     navController.navigateUp()
-                                }
+                                },
+                                onSubmitPhotoPressed = {}
                             )
                         }
                     }

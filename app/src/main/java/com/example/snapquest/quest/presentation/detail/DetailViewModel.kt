@@ -39,6 +39,14 @@ class DetailViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             delay(1000L)
         }
-        _uiState.update { UiModel.Content("Something blue $questId") }
+        _uiState.update { UiModel.Content(
+            "Something blue $questId",
+            description = TODO(),
+            questImageUrl = TODO(),
+            timeLeft = TODO(),
+            yourSubmission = TODO(),
+            mostUpVoted = TODO(),
+            allSubmission = TODO()
+        ) }
     }
 }

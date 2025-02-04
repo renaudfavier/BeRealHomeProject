@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SnapQuest</string>
+    <string name="content_description_quest_detail_photo">Quest Illustration</string>
+    <string name="section_title_all_submissions">All submissions</string>
+    <string name="section_title_your_submission">Your submission</string>
+    <string name="section_title_most_upvoted">Most upVoted</string>
+    <string name="submit_photo">Submit photo</string>
 </resources>
