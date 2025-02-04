@@ -11,4 +11,5 @@ interface QuestRepository {
     }
 
     suspend fun getQuest(id: Int): Result<Quest, QuestRepositoryError>
+    suspend fun getQuests(ids: Set<Int>): Result<Map<Int, Quest>, QuestRepositoryError>
 }

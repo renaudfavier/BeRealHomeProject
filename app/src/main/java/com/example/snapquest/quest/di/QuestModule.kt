@@ -4,6 +4,8 @@ import com.example.snapquest.quest.data.FakeUploadPhotoUseCase
 import com.example.snapquest.quest.domain.UploadPhotoUseCase
 import com.example.snapquest.quest.data.FakeQuestRepository
 import com.example.snapquest.quest.data.FakeQuestSubmissionRepository
+import com.example.snapquest.quest.domain.AvailableQuestsRepository
+import com.example.snapquest.quest.data.FakeAvailableQuestsRepository
 import com.example.snapquest.quest.domain.QuestRepository
 import com.example.snapquest.quest.domain.QuestSubmissionRepository
 import dagger.Binds
@@ -27,4 +29,8 @@ interface QuestModule {
     @Singleton
     @Binds
     fun bindQuestSubmissionRepository(fake: FakeQuestSubmissionRepository): QuestSubmissionRepository
+
+    @Singleton
+    @Binds
+    fun bindAvailableQuestsRepository(fake: FakeAvailableQuestsRepository): AvailableQuestsRepository
 }
