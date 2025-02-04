@@ -174,25 +174,28 @@ private fun Content(
         }
 
         item {
-            Spacer(Modifier.height(144.dp))
+            val bottomSpace = if(uiModel.isJoinButtonVisible) 144.dp else 48.dp
+            Spacer(Modifier.height(bottomSpace))
         }
     }
 
-    Button(
-        onClick = onSubmitPhotoPressed,
-        colors = ButtonDefaults.elevatedButtonColors(),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 24.dp)
-            .height(72.dp)
-            .align(Alignment.BottomCenter),
-        elevation = ButtonDefaults.elevatedButtonElevation(),
-        shape = RoundedCornerShape(24.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.join_contest),
-            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
-        )
+    if(uiModel.isJoinButtonVisible) {
+        Button(
+            onClick = onSubmitPhotoPressed,
+            colors = ButtonDefaults.elevatedButtonColors(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 24.dp)
+                .height(72.dp)
+                .align(Alignment.BottomCenter),
+            elevation = ButtonDefaults.elevatedButtonElevation(),
+            shape = RoundedCornerShape(24.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.join_contest),
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+            )
+        }
     }
 }
 
@@ -277,6 +280,7 @@ private fun ContentPreview() {
                 yourSubmission = SubmissionUiModel(1, "", 7),
                 mostUpVoted = SubmissionUiModel(1, "", 18),
                 allSubmission = listOf(SubmissionUiModel(1, "", 3)),
+                isJoinButtonVisible = true,
             ),
             onBackButtonPressed = {},
             onSubmitPhotoPressed = {},

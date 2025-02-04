@@ -12,7 +12,7 @@ sealed interface QuestDetailUiModel {
         val yourSubmission: SubmissionUiModel?,
         val mostUpVoted: SubmissionUiModel?,
         val allSubmission: List<SubmissionUiModel>,
-
+        val isJoinButtonVisible: Boolean,
         ) : QuestDetailUiModel
 
     data class Error(val message: String) : QuestDetailUiModel

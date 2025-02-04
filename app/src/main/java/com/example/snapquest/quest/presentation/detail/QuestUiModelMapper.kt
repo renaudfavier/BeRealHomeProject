@@ -16,7 +16,8 @@ class QuestUiModelMapper @Inject constructor() {
         timeLeft = formatTimeLeft(quest.endDate),
         yourSubmission = submissions.yours?.toUiModel(),
         mostUpVoted = submissions.mostVoted?.toUiModel(),
-        allSubmission = submissions.allSubmission.map { it.toUiModel() }
+        allSubmission = submissions.allSubmission.map { it.toUiModel() },
+        isJoinButtonVisible = submissions.yours == null
     )
 
     private fun formatTimeLeft(instant: Instant): String {
