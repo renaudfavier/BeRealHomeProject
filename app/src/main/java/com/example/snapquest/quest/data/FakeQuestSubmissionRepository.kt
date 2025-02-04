@@ -37,6 +37,13 @@ class FakeQuestSubmissionRepository @Inject constructor(): QuestSubmissionReposi
         return Result.Success((submissions.getOrDefault(questId, null) ?: emptyList()).toResponse())
     }
 
+    override suspend fun getSubmission(id: Int): Result<Submission, Error> {
+        somethingBlueSubmissions.firstOrNull { it.id == id }?.let { return Result.Success(it) }
+        coffeeArtSubmissions.firstOrNull { it.id == id }?.let { return Result.Success(it) }
+        forestSubmissions.firstOrNull { it.id == id }?.let { return Result.Success(it) }
+        return Result.Error(QuestSubmissionRepository.QuestSubmissionRepositoryError.NOT_FOUND)
+    }
+
     private fun List<Submission>.toResponse(): QuestSubmissionRepository.Response {
         val yours = this.firstOrNull { it.isMine }
         val mostVoted = this.maxByOrNull { it.voteCount }

@@ -1,6 +1,7 @@
 package com.example.snapquest.quest.presentation.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,6 +44,7 @@ fun QuestDetailScreen(
     uiModel: QuestDetailUiModel,
     onBackButtonPressed: () -> Unit,
     onSubmitPhotoPressed: () -> Unit,
+    onPhotoPressed: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) = Box(
     modifier = modifier
@@ -53,6 +55,7 @@ fun QuestDetailScreen(
         is QuestDetailUiModel.Content -> Content(
             uiModel = uiModel,
             onSubmitPhotoPressed = onSubmitPhotoPressed,
+            onPhotoPressed = onPhotoPressed,
             modifier = modifier.fillMaxSize()
         )
 
@@ -71,6 +74,7 @@ fun QuestDetailScreen(
 private fun Content(
     uiModel: QuestDetailUiModel.Content,
     onSubmitPhotoPressed: () -> Unit,
+    onPhotoPressed: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) = Box(modifier) {
     LazyColumn(modifier = modifier) {
@@ -94,7 +98,9 @@ private fun Content(
                     Box {
                         RoundedImageLarge(
                             imageUrl = mostUpVoted.url,
-                            modifier = Modifier.fillMaxWidth(0.8f)
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .clickable { onPhotoPressed(mostUpVoted.id) }
                         )
                         LikeButtonLarge(
                             onClick = {},
@@ -120,6 +126,7 @@ private fun Content(
                             imageUrl = yourSubmission.url,
                             Modifier
                                 .fillMaxWidth(0.8f)
+                                .clickable { onPhotoPressed(yourSubmission.id) }
                         )
                         LikeButtonLarge(
                             onClick = {},
@@ -151,6 +158,7 @@ private fun Content(
                             Modifier
                                 .weight(1f)
                                 .padding(end = 4.dp)
+                                .clickable { onPhotoPressed(pair[0].id) }
                         )
 
                         if (pair.size == 2) {
@@ -159,6 +167,7 @@ private fun Content(
                                 Modifier
                                     .weight(1f)
                                     .padding(start = 4.dp)
+                                    .clickable { onPhotoPressed(pair[1].id) }
                             )
                         } else {
                             Spacer(
@@ -286,6 +295,7 @@ private fun ContentPreview() {
                 isJoinButtonVisible = true,
             ),
             onBackButtonPressed = {},
+            onPhotoPressed = {},
             onSubmitPhotoPressed = {},
         )
     }
@@ -298,6 +308,7 @@ private fun ErrorPreview() {
         QuestDetailScreen(
             uiModel = QuestDetailUiModel.Error("message"),
             onBackButtonPressed = {},
+            onPhotoPressed = {},
             onSubmitPhotoPressed = {},
         )
     }
@@ -310,6 +321,7 @@ private fun LoadingPreview() {
         QuestDetailScreen(
             uiModel = QuestDetailUiModel.Loading,
             onBackButtonPressed = {},
+            onPhotoPressed = {},
             onSubmitPhotoPressed = {},
         )
     }

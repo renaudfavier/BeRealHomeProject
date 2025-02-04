@@ -20,6 +20,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.snapquest.quest.presentation.detail.DetailViewModel
 import com.example.snapquest.quest.presentation.detail.QuestDetailScreen
+import com.example.snapquest.quest.presentation.fullscreen.FullScreenImageScreen
+import com.example.snapquest.quest.presentation.fullscreen.FullScreenViewModel
 import com.example.snapquest.quest.presentation.list.ListViewModel
 import com.example.snapquest.quest.presentation.list.QuestListScreen
 import com.example.snapquest.ui.theme.SnapQuestTheme
@@ -65,11 +67,25 @@ class MainActivity : ComponentActivity() {
                                 onBackButtonPressed = {
                                     navController.navigateUp()
                                 },
+                                onPhotoPressed = { id -> navController.navigate(FullScreenRoute(id))},
                                 onSubmitPhotoPressed = {
                                     singlePhotoPickerLauncher.launch(
                                         input = PickVisualMediaRequest(ImageOnly)
                                     )
                                 }
+                            )
+                        }
+
+                        composable<FullScreenRoute> {
+
+                            val fullscreenViewModel = hiltViewModel<FullScreenViewModel>()
+                            val uiModel by fullscreenViewModel.uiState.collectAsStateWithLifecycle()
+                            
+                            FullScreenImageScreen(
+                                uiModel = uiModel,
+                                onBackPressed = {
+                                    navController.navigateUp()
+                                },
                             )
                         }
                     }
