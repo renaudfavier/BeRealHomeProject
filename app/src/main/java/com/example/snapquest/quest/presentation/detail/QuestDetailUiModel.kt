@@ -9,16 +9,16 @@ sealed interface QuestDetailUiModel {
         val description: String,
         val questImageUrl: String?,
         val timeLeft: String,
-        val yourSubmission: Submission?,
-        val mostUpVoted: Submission?,
-        val allSubmission: List<Submission>,
+        val yourSubmission: SubmissionUiModel?,
+        val mostUpVoted: SubmissionUiModel?,
+        val allSubmission: List<SubmissionUiModel>,
 
-    ) : QuestDetailUiModel
+        ) : QuestDetailUiModel
 
     data class Error(val message: String) : QuestDetailUiModel
 }
 
-data class Submission(
+data class SubmissionUiModel(
     val id: Int,
     val url: String,
     val voteCount: Int,
