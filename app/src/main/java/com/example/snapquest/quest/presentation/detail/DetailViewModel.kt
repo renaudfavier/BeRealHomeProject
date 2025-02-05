@@ -51,23 +51,17 @@ class DetailViewModel @Inject constructor(
 
     private fun loadData() = viewModelScope.launch {
         _uiState.update { UiModel.Loading }
-        withContext(ioDispatcher) {
-            val deferredQuest = async { questRepository.getQuest(questId) }
-            val deferredSubmissions = async { questSubmissionRepository.getAllSubmissions(questId) }
+        val deferredQuest = async(ioDispatcher) { questRepository.getQuest(questId) }
+        val deferredSubmissions = async(ioDispatcher) { questSubmissionRepository.getAllSubmissions(questId) }
 
-            val questResult = deferredQuest.await()
-            val submissionsResult = deferredSubmissions.await()
-            withContext(Dispatchers.Main) {
-                questResult
-                    .combine(submissionsResult)
-                    .onSuccess { (quest, submissions) ->
-                        _uiState.update { mapper.map(quest, submissions) }
-                    }
-                    .onError { e ->
-                        _uiState.update { UiModel.Error(e.toString()) }
-                    }
+        deferredQuest.await()
+            .combine(deferredSubmissions.await())
+            .onSuccess { (quest, submissions) ->
+                _uiState.update { mapper.map(quest, submissions) }
             }
-        }
+            .onError { e ->
+                _uiState.update { UiModel.Error(e.toString()) }
+            }
     }
 
     fun onPhotoSubmitted(uri: Uri?) = viewModelScope.launch {

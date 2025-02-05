@@ -35,27 +35,23 @@ class ListViewModel @Inject constructor(
 
     private fun loadData() = viewModelScope.launch {
         _uiState.update { UiModel.Loading }
-        withContext(Dispatchers.IO) {
-            when(val result = availableQuestsRepository.getQuests()) {
-                is Result.Error -> { displayError(result.error.toString()) }
-                is Result.Success -> {
-                    val availableQuests = result.data
-                    fetchQuestsAndUpdateUi(availableQuests)
-                }
-            }
+        val result = withContext(Dispatchers.IO) { availableQuestsRepository.getQuests() }
+        val uiModel = when(result) {
+            is Result.Error -> UiModel.Error(result.error.toString())
+            is Result.Success -> fetchQuestAndBuildUiModel(result.data)
         }
+        _uiState.update { uiModel }
     }
 
-    private suspend fun fetchQuestsAndUpdateUi(
+    private suspend fun fetchQuestAndBuildUiModel(
         availableQuests: AvailableQuestsRepository.Response
-    ) = withContext(Dispatchers.IO) {
-        when (val questsResult = questRepository.getQuests(availableQuests.questIds())) {
-            is Result.Error -> { displayError(questsResult.error.toString()) }
-            is Result.Success -> {
-                withContext(Dispatchers.Main) {
-                    _uiState.update { mapper.map(availableQuests, questsResult.data) }
-                }
-            }
+    ) : UiModel {
+        val questsResult = withContext(Dispatchers.IO) {
+            questRepository.getQuests(availableQuests.questIds())
+        }
+        return when (questsResult) {
+            is Result.Error -> UiModel.Error(questsResult.error.toString())
+            is Result.Success -> mapper.map(availableQuests, questsResult.data)
         }
     }
 
@@ -65,9 +61,4 @@ class ListViewModel @Inject constructor(
         return ids
     }
 
-    private suspend fun displayError(message: String) = withContext(Dispatchers.Main) {
-        _uiState.update {
-            UiModel.Error(message)
-        }
-    }
 }
